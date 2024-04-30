@@ -204,7 +204,7 @@ def calculate_activation_statistics(
     return mu, sigma
 
 
-def process_fid_score(video_r, video_g):
+def process_fid_score(test, gt):
 
     dims = 2048
     device = torch.device("cuda" if (torch.cuda.is_available()) else "cpu")
@@ -215,14 +215,15 @@ def process_fid_score(video_r, video_g):
 
     model = InceptionV3([block_idx]).to(device)
 
-    batch_size = len(video_r)
+    batch_size = len(test)
 
     m1, s1 = calculate_activation_statistics(
-        video_r, model, batch_size, dims, device, num_workers
+        gt, model, batch_size, dims, device, num_workers
     )
     m2, s2 = calculate_activation_statistics(
-        video_g, model, batch_size, dims, device, num_workers
+        test, model, batch_size, dims, device, num_workers
     )
     fid_value = calculate_frechet_distance(m1, s1, m2, s2)
 
     print("FID: ", fid_value)
+    return fid_value

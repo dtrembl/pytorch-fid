@@ -1,7 +1,22 @@
-[tool.black]
-target-version = ["py311"]
 
-[tool.isort]
-profile = "black"
-line_length = 88
-multi_line_output = 3
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pytorch-fid"
+version = "1.0.0"
+description = "Package for calculating Frechet Inception Distance (FID)"
+requires-python = ">=3.8"
+dependencies = ["numpy", "pillow", "scipy", "torch", "torchvision"]
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools]
+include-package-data = true
+
+#[tool.setuptools.package-data]
+#fastvqa = ["*.yml"]
+#

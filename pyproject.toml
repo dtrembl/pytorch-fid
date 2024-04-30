@@ -4,7 +4,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pytorch-fid"
+name = "pytorch_fid"
 version = "1.0.0"
 description = "Package for calculating Frechet Inception Distance (FID)"
 requires-python = ">=3.8"

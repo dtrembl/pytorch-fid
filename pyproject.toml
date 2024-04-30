@@ -8,7 +8,7 @@ name = "pytorch_fid"
 version = "1.0.0"
 description = "Package for calculating Frechet Inception Distance (FID)"
 requires-python = ">=3.8"
-dependencies = ["numpy", "pillow", "scipy", "torch", "torchvision"]
+dependencies = ["numpy", "pillow", "scipy==1.13.0", "torch", "torchvision"]
 
 
 [tool.setuptools.packages.find]

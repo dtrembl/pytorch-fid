@@ -37,6 +37,7 @@ import os
 import numpy as np
 import torch
 import torchvision.transforms as TF
+from torchvision.transforms import v2
 from PIL import Image
 from scipy import linalg
 from torch.nn.functional import adaptive_avg_pool2d
@@ -84,6 +85,8 @@ def get_activations(
             )
         )
         batch_size = len(video)
+
+    print("**** video ", video.type())
 
     # dataset = ImagePathDataset(files, transforms=TF.ToTensor())
     dataloader = torch.utils.data.DataLoader(
@@ -209,13 +212,17 @@ def process_fid_score(test, gt):
     dims = 2048
     device = torch.device("cuda" if (torch.cuda.is_available()) else "cpu")
     num_cpus = os.cpu_count()
-    num_workers = min(num_cpus, 8) if num_cpus is not None else 0
+    num_workers = 0  # min(num_cpus, 8) if num_cpus is not None else 0
 
     block_idx = InceptionV3.BLOCK_INDEX_BY_DIM[dims]
 
     model = InceptionV3([block_idx]).to(device)
 
-    batch_size = len(test)
+    batch_size = 1
+
+    to_float = v2.Compose([v2.ToDtype(torch.float32, scale=True)])
+    test = to_float(test)
+    gt = to_float(gt)
 
     m1, s1 = calculate_activation_statistics(
         gt, model, batch_size, dims, device, num_workers
